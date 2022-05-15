@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.active{
+  background-color: blue;
+}
+
+.countryBox{
+  border-width: 3px;
+  border-color: blue;
+}
