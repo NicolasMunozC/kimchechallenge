@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { gql } from "apollo-boost";
-import { useQuery, useLazyQuery} from "@apollo/react-hooks"
+import { useQuery } from "@apollo/react-hooks"
 import Group from "./components/Group";
 
 const countriesBasic = gql`
@@ -35,6 +35,7 @@ function App() {
   const [continentButtonState, setContinentButtonState] = React.useState(true)
   const [searchCountry, setSearchCountry] = React.useState('')
   const [searchCodeCountry, setSearchCodeCountry] = React.useState([])
+  const [isSearchingCountries, setIsSearchingCountries] = React.useState(false)
 
   const allCountriesBasic = useQuery(countriesBasic)
   const allContinentsData = useQuery(allContinents)
@@ -56,6 +57,16 @@ function App() {
     const newSearch = event.target.value
     setSearchCountry(newSearch)
 
+    if(newSearch.length < 3) {
+      setIsSearchingCountries(false)
+    }
+    if(newSearch.length >= 3){
+
+      
+    setIsSearchingCountries(true)
+
+
+
     //Obtiene un array con todos los nombres de paises
     const allCountriesArray = allCountriesBasic.data.countries.map(country => country.name)
 
@@ -72,19 +83,27 @@ function App() {
       setSearchCodeCountry(searchedCodesCountries)
 
     }
+
+    
+
+    }
+
+
   }
 
   return (
     <div>
     <h1>Country Search</h1>
     <p>Hi! :) Please write something below...</p>
-    <input type='text' autoFocus value={searchCountry} onChange={filteringCountries}></input>
+    <input type='text' autoFocus value={searchCountry} onChange={filteringCountries} placeholder={isSearchingCountries === false ? "Please write something..." : ""}></input>
     <p>Group by:</p>
     <button className={continentButtonState === true ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Continent</button>
     <button className={continentButtonState === false ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Language</button> <br/>
     
     {(continentButtonState ? allContinentsData.error : allLanguagesData.error) && <span>Ops! There is a problem finding the information, please try again later...</span>}
-    {(continentButtonState ? allContinentsData.loading : allLanguagesData.loading) ? <span>Loading...</span> : <Group groupingByContinent={continentButtonState} continentsData={allContinentsData.data} languagesData={allLanguagesData.data} searchedData={searchCodeCountry}/>}
+    {(continentButtonState ? allContinentsData.loading : allLanguagesData.loading) ? <span>Loading...</span> : 
+    <Group isSearching={isSearchingCountries} groupingByContinent={continentButtonState} continentsData={allContinentsData.data} languagesData={allLanguagesData.data} searchedData={searchCodeCountry}/>
+    }
 
     </div>
   )
