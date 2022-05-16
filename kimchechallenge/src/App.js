@@ -12,49 +12,54 @@ query {
   }
 }
 `
-// FALTA AGREGAR QUE CUANDO BUSQUE UN NOMBRE LA PRIMERA LETRAS SE HAGA MAYUSCULA INTERNAMENTE
 
 function App() {
   const [continentButtonState, setContinentButtonState] = React.useState(true)
   const [searchCountry, setSearchCountry] = React.useState('')
   const [searchCodeCountry, setSearchCodeCountry] = React.useState([])
   const [isSearchingCountries, setIsSearchingCountries] = React.useState(false)
-
   const allCountriesBasic = useQuery(countriesBasic)
 
   //Un array que almacenara todos los codigos de cada pais autocompletado en la busqueda
   const searchedCodesCountries = []
 
-
+  
+  //Funcion que filtrara los paises segun lo que se esta buscando en el input
   function filteringCountries(event) {
-    //Almacena el valor buscado
-    const newSearch = event.target.value
+
+    //Almacena el valor buscado y lo normaliza dejando la primera letra mayuscula y las demas minusculas
+    const newSearch = event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1).toLowerCase()
     setSearchCountry(newSearch)
 
-    //Obtiene un array con todos los nombres de paises
-    const allCountriesArray = allCountriesBasic.data.countries.map(country => country.name)
-
-    //Obtiene un array con todos los posibles paises que se esta buscando. AUTOCOMPLETADO
-    const autoCompletedCountries = allCountriesArray.filter(country => country.indexOf(newSearch) >-1)
-        
-    
-    //Me entrega un array con cada objeto por pais autocompletado anteriormente
-    const searchedCodesArray = autoCompletedCountries.map(eachCountry => allCountriesBasic.data.countries.filter(country => country.name === eachCountry))
-    
-    // "For" para dejar una array solo con los codigos de los paises buscados
-    for (let i = 0; i < searchedCodesArray.length; i++) {
-      const [code] = searchedCodesArray[i]
-      searchedCodesCountries.push(code.code)
-      setSearchCodeCountry(searchedCodesCountries)
-
-      if(newSearch.length < 3) {
-        setIsSearchingCountries(false)
-      }
-      if(newSearch.length >= 3){ 
-        setIsSearchingCountries(true)
-      }
+    if(newSearch.length < 2) {
+      setIsSearchingCountries(false)
     }
 
+    if(newSearch.length >= 2){ 
+      setIsSearchingCountries(true)
+
+      //Obtiene un array con todos los nombres de paises
+      const allCountriesArray = allCountriesBasic.data.countries.map(country => country.name)
+
+      //Obtiene un array con todos los posibles paises que se esta buscando. (AUTOCOMPLETADO)
+      const autoCompletedCountries = allCountriesArray.filter(country => country.indexOf(newSearch) >-1)
+
+      //Resetea el listado si es que no encontro posibles paises en el autocompletado
+      if(autoCompletedCountries.length <= 0){
+        setSearchCodeCountry(null)
+      }
+    
+      //Entrega un array con cada objeto por pais autocompletado anteriormente
+      const searchedCodesArray = autoCompletedCountries.map(eachCountry => allCountriesBasic.data.countries.filter(country => country.name === eachCountry))
+    
+      // "For" para dejar una array solo con los codigos de los paises buscados
+      for (let i = 0; i < searchedCodesArray.length; i++) {
+        const [code] = searchedCodesArray[i]
+        searchedCodesCountries.push(code.code)
+        setSearchCodeCountry(searchedCodesCountries)
+      }
+
+    }
 
   }
 
