@@ -65,15 +65,18 @@ function Group({isSearching, groupingByContinent, searchedData}) {
 
 
   return (
-    <div>
+    <div className='resultContainer'>
+      {!data && !searchedData && !loading ? <h2>We can not find what are you searching for...</h2> : null}
       { isSearching && (
         loading ?
-        <p>Loading...</p>
+        <div className='loading'>
+          <p>Loading...</p>
+        </div>
         :
         (groupingByContinent ?
-          groupingData.map(continent => (<div><h1>{continent}</h1>{data.countries.map(country => (country.continent.name === continent && <Country groupingByContinent={groupingByContinent} data={country}/>))}</div>))
+          groupingData.map(continent => (<div><h1 className='groupName'>{continent}</h1><div className='countriesResult'>{data.countries.map(country => (country.continent.name === continent && <Country key={country.code} groupingByContinent={groupingByContinent} data={country}/>))}</div></div>))
           :
-          groupingData.map(language => (<div><h1>{language}</h1>{data.countries.map(country => (country.languages.map( countryLanguage => (countryLanguage.name === language && <Country groupingByContinent={groupingByContinent} data={country}/>))))}</div>))
+          groupingData.map(language => (<div><h1 className='groupName'>{language}</h1><div className='countriesResult'>{data.countries.map(country => (country.languages.map( countryLanguage => (countryLanguage.name === language && <Country key={country.code} groupingByContinent={groupingByContinent} data={country}/>))))}</div></div>))
           )
       )
       }

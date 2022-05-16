@@ -1,7 +1,19 @@
 # Desafío para Software Engineers
 
 Nombre postulante: [Nicolas Muñoz](https://nicolasmunozc.github.io/)
-Link a la app en producción: [LINK DEL DEPLOY]
+Link a la app en producción: [LINK DEL DEPLOY AUN NO DISPONIBLE](#)
+
+## Pregunta del email por responder
+
+"La tabla que contiene la información correspondiente a la asistencia diaria de un niño en un colegio tiene 90 millones de filas. Todas las tablas del sistema existen en la misma BDD en MySQL. La lógica del backend que actualiza la información correspondiente al pasar la asistencia tiene un tiempo de servicio p95 de 10 segundos. El equipo está interesado en bajar este tiempo para mejorar la experiencia del usuario (y porque nos gusta pensar en Kimche como un Ferrari). ¿Qué propondrías para enfrentar el problema? Esta pregunta es abierta, no hay respuestas malas. Puedes proponer arquitectura, tecnologías, diseño, etc."
+
+**Respuesta:**
+Segun yo tengo entendido (No soy experto en tecnologias de DB) lo que es SQL siendo una base de dados relacionales es mas lenta para una gran data por como lo menciona el caso, por lo que buscaria alternativas de nuevas tecnologias, yo he utilizado MongoDB y creo que es mas rapida para el manejo de la informacion, sin embargo no es relacional, por lo que habria que elaborar una estructura con la que permitiera poder relacionar las datas.
+Fuentes:
+[MySQL VS MongoDB por IBM](https://www.ibm.com/cloud/blog/mysql-vs-mongodb#:~:text=Both%20are%20database%20management%20systems,is%20a%20document%2Dbased%20system)
+[MongoDB vs SQL server por EDUCBA](https://www.educba.com/mongodb-vs-sql-server/)
+
+
 
 ## Instrucciones
 

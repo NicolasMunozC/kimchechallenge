@@ -13,7 +13,7 @@ query {
 }
 `
 
-function App() {
+function App(){
   const [continentButtonState, setContinentButtonState] = React.useState(true)
   const [searchCountry, setSearchCountry] = React.useState('')
   const [searchCodeCountry, setSearchCodeCountry] = React.useState([])
@@ -64,15 +64,17 @@ function App() {
   }
 
   return (
-    <div>
-    <h1>Country Search</h1>
-    <p>Hi! :) Please write something below...</p>
-    <input type='text' autoFocus value={searchCountry} onChange={filteringCountries} placeholder={isSearchingCountries === false ? "Please write something..." : ""}></input>
-    <p>Group by:</p>
-    <button className={continentButtonState === true ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Continent</button>
-    <button className={continentButtonState === false ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Language</button> <br/>
+    <div className="mainContainer">
+      <div className="searchingContainer">
+        <h1>Country Search</h1>
+        <p>Hi! :) Type something below...</p>
+        <input type='text' autoFocus value={searchCountry} onChange={filteringCountries} placeholder={isSearchingCountries === false ? "Search..." : ""}></input>
+        <p>Group by:</p>
+        <button className={continentButtonState === true ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Continent</button>
+        <button className={continentButtonState === false ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Language</button> <br/>
+      </div>
     <Group isSearching={isSearchingCountries} groupingByContinent={continentButtonState} searchedData={searchCodeCountry}/>
-
+    <span className="footer">Made in <span aria-label="CL" role={"img"}>🇨🇱</span> with <span aria-label="hearth" role="img">❤️</span></span>
     </div>
   )
 }
