@@ -74,7 +74,7 @@ function App(){
         <button className={continentButtonState === false ? "active" : ''} onClick={()=>{setContinentButtonState(!continentButtonState)}}>Language</button> <br/>
       </div>
     <Group isSearching={isSearchingCountries} groupingByContinent={continentButtonState} searchedData={searchCodeCountry}/>
-    <span className="footer">Made in <span aria-label="CL" role={"img"}>🇨🇱</span> with <span aria-label="hearth" role="img">❤️</span></span>
+    <span className="footer">Made in <span aria-label="CL" role={"img"} style={{margin: 2}}>🇨🇱 </span> with <span aria-label="hearth" role="img">❤️</span></span>
     </div>
   )
 }

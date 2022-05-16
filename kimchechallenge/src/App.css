@@ -10,7 +10,7 @@
 }
 
 .searchingContainer{
-  padding: 20px 200px ;
+  padding: 20px 10% ;
 
 }
 
@@ -71,11 +71,6 @@ button.active{
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.countryBox{
-  border-width: 3px;
-  border-color: blue;
-}
-
 .groupName{
   text-align: left;
 }
@@ -112,10 +107,13 @@ button.active{
   margin: 3px;
 }
 
+@media (min-width: 1000px) {
 .countriesResult{
   display: grid;  
   grid-template-columns: 1fr 1fr 1fr ;
   column-gap: 10px;
+}
+  
 }
 
 .loading {
@@ -132,3 +130,11 @@ button.active{
    right: 0%;
    margin: 10px;
  }
+
+ @media (max-width: 999px) {
+  .countriesResult{
+    display: grid;  
+    grid-template-columns: 1fr ;
+    column-gap: 10px;
+  }
+}
