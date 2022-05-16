@@ -24,9 +24,10 @@ query findCountriesByCode($codeToSearch: [String!]){
 }
 `
 
-function Group({isSearching, groupingByContinent, continentsData, languagesData, searchedData}) {
+function Group({isSearching, groupingByContinent, searchedData}) {
 
   const [getCountriesByCode, {loading, data, error}] = useLazyQuery(findCountriesByCode)
+  const groupingData = []
 
   const getData = code =>{
     getCountriesByCode({variables: { codeToSearch : code}})
@@ -34,22 +35,27 @@ function Group({isSearching, groupingByContinent, continentsData, languagesData,
 
   React.useEffect( ()=> {
     if(isSearching){
-      console.log(searchedData);
         getData(searchedData)
 
   }
    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchedData])
 
-  if(loading){
-    console.log("Estamos preparando la informacion");
-  }
   if(data){
-    console.log(data.countries);
+    if(groupingByContinent){
+      data.countries.map(country => groupingData.push(country.continent.name ))
+    }else{
+      data.countries.map(country => country.languages.map(languages => groupingData.push(languages.name)))
+
+    }
   }
   if(error){
     console.log(error);
   }
+
+
+
+
 
   return (
     <div>
@@ -58,9 +64,9 @@ function Group({isSearching, groupingByContinent, continentsData, languagesData,
         <p>Loading...</p>
         :
         (groupingByContinent ?
-          <h1>Continent</h1>
+          groupingData.map(continent => (<div><h1>{continent}</h1>{data.countries.map(country => (country.continent.name === continent && <Country groupingByContinent={groupingByContinent} data={country}/>))}</div>))
           :
-          <h1>Language</h1>
+          groupingData.map(language => (<div><h1>{language}</h1>{data.countries.map(country => (country.language.name === language && <Country groupingByContinent={groupingByContinent} data={country}/>))}</div>))
           )
       )
       }
